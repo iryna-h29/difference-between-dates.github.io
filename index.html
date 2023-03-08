@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Difference Between 2 Dates</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <section class="calculator__container glass">
+      <h1 class="calculator__h1">
+        Select the dates to calculate
+          <select name="filter-duration" id="filter-duration">
+            <option value="days" selected="selected">days</option>
+            <option value="hours">hours</option>
+            <option value="minutes">minutes</option>
+            <option value="seconds">seconds</option>
+          </select>
+        between dates
+      </h1>
+      <form class="calculator__form">
+        <div class="calculator__inp-wrapper">
+          <div class="calculator__start-date-wrapper">
+            <label for="date-1" class="calculator__label-start-date">Start Date</label>
+            <input class="calculator__input-start-date" type="date" id="date-1" />
+          </div>
+          <fieldset class="calculator__end-date-wrapper">
+            <legend class="calculator__end-date-legend">End Date</legend>
+            <input type="radio" id="end-date" name="duration" value="">
+            <label for="end-date" class="calculator__end-date-label" id="label-endDate">
+                <input type="date" id="date-2" class="date-2">
+            </label>
+            <input type="radio" id="week" name="duration" value="week">
+            <label for="week" class="calculator__end-date-label">week</label>
+            <input type="radio" id="month" name="duration" value="month">
+            <label for="month" class="calculator__end-date-label">month</label>
+          </fieldset>
+        </div>
+        <div class="calculator__type-days">
+          <label for="type-day">Include: </label>
+          <select name="type-days" id="type-day">
+            <!-- <option disabled selected value> -- select an option -- </option> -->
+            <option value="all-day" selected="selected">all days</option>
+            <option value="weekdays">only weekdays</option>
+            <option value="weekends">only weekends</option>
+          </select> 
+        </div>
+        <div class="calculator__btns">
+          <input type="submit" value="Submit" class="calculator__btn">
+          <button type="button" class="calculator__btn-reset">
+            <img src="icons/rotate.svg" alt="">
+            <span class="tooltip-text">reset the form</span>
+          </button>
+        </div>
+      </form>
+      <div id="output">
+      </div>
+    </section>
+    <section class="history__section">
+      <h3 class="history__header">The last results</h3>
+      <div class="history__container">
+        <div class="history__column history__start">
+          <div class="history__heading">Start date</div>
+          <ul class="history__list history__list-start-date"></ul>
+        </div>
+        <div class="history__column history__end">
+          <div class="history__heading">End date</div>
+          <ul class="history__list history__list-end-date"></ul>
+        </div>
+        <div class="history__column history__result">
+          <div class="history__heading">Result</div>
+          <ul class="history__list history__list-result"></ul>
+        </div>
+      </div>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>
