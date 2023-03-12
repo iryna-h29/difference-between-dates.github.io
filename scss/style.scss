@@ -37,8 +37,19 @@ body {
 	background: radial-gradient(circle at 10% 20%, rgba(249, 251, 250, 0.46) 0.1%, rgba(247, 246, 246, 0.28) 90.1%);
 	padding: 6em 3em;
 	border-radius: 20px;
+	@media (max-width: 800px) {
+		width: 90%;
+	}
+	@media (max-width: 550px) {
+		width: 100%;
+		padding: 3em 0.5em;
+	}
+
 	.calculator__h1 {
 		font-size: 1.5em;
+		@media (max-width: 900px) {
+			font-size: 1em;
+		}
 	}
 }
 .calculator__form {
@@ -52,6 +63,9 @@ body {
 		.calculator__input-start-date {
 			background-color: white;
 			margin-left: 17px;
+			@media (max-width: 350px) {
+				margin: 0;
+			}
 		}
 		input[type="date"] {
 			font-size: 16px;
@@ -61,7 +75,6 @@ body {
 			outline: none;
 			border-radius: 0.2em;
 			background-color: white;
-			// background-color: transparent;
 		}
 	}
 	.calculator__end-date-wrapper {
@@ -70,6 +83,10 @@ body {
 		align-items: center;
 		width: 400px;
 		gap: 0.5em;
+		@media (max-width: 410px) {
+			width: fit-content;
+			gap: 0.2em;
+		}
 		.calculator__end-date-legend {
 			padding: 10px 0 10px 10px;
 		}
@@ -90,6 +107,10 @@ body {
 			background-color: transparent;
 			position: relative;
 			padding: 1em;
+			@media (max-width: 410px) {
+				padding: 0.5em;
+				font-size: 14px;
+			}
 			input[type='date'] {
 				font-size: 16px;
 				padding: 0;
@@ -196,6 +217,12 @@ ul {
 			background-color: #192733;
 			border-radius: 10px;
 			padding: 10px 15px 10px 15px;
+			@media(max-width: 450px) {
+				// top: -35px;
+  				// left: -50%;
+				// padding: 7px 10px;
+				display: none;
+			}
 		}
 	}
 	.calculator__btn-reset:hover {
@@ -231,6 +258,9 @@ ul {
 		display: flex;
 		justify-content: center;
 		gap: 10em;
+		@media (max-width: 550px) {
+			gap: 2em;
+		}
 		.history__column {
 			display: flex;
 			flex-direction: column;
