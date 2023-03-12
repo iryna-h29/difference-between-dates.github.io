@@ -10,7 +10,54 @@ let outputResult;
 let filterDurationSelect = document.querySelector("#filter-duration");
 const btnReset = document.querySelector('.calculator__btn-reset');
 
+function showLastResults() {
+  let startDates;
+  let endDates;
+  let results;
+  let listStartDate = document.querySelector(".history__list-start-date");
+  let listEndDate = document.querySelector(".history__list-end-date");
+  let listResult = document.querySelector('.history__list-result');
 
+  if (localStorage.getItem('start Dates') !== null) {
+    startDates = JSON.parse(localStorage.getItem('start Dates'));
+  } else {
+    startDates = []
+  }
+
+  if (localStorage.getItem('end Dates') !== null) {
+    endDates = JSON.parse(localStorage.getItem('end Dates'));
+  } else {
+      endDates = []
+  }
+
+  if (localStorage.getItem('results') !== null) {
+    results = JSON.parse(localStorage.getItem('results'));
+  } else {
+      results = []
+  }
+
+  startDates.forEach((date) => {
+    let liStartDate = document.createElement('li');
+    liStartDate.innerText = date;
+    listStartDate.append(liStartDate);
+  })
+
+  endDates.forEach((date) => {
+    let liEndDate = document.createElement('li');
+    liEndDate.innerText = date;
+    listEndDate.append(liEndDate);
+  })
+
+  results.forEach((date) => {
+    let liResult = document.createElement('li');
+    liResult.innerText = date;
+    listResult.append(liResult);
+  })
+
+
+
+
+}
 function storeStartDatetoLocalStorage(date) {
   let startDates;
 
@@ -265,3 +312,4 @@ labelEndDate.addEventListener('click', defineStatus);
 week.addEventListener('click', removeActiveStatusFromEndDate);
 month.addEventListener('click', removeActiveStatusFromEndDate);
 btnReset.addEventListener('click', resetForm);
+document.addEventListener('DOMContentLoaded', showLastResults);
