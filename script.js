@@ -14,22 +14,17 @@ const btnReset = document.querySelector('.calculator__btn-reset');
 function storeStartDatetoLocalStorage(date) {
   let startDates;
 
-  // перевіряємо чи є у localStorage вже якісь завдання
   if (localStorage.getItem('start Dates') !== null) {
-    // якщо вони там є - витягуємо їх і присвоюємо змінній
     startDates = JSON.parse(localStorage.getItem('start Dates'));
     if (startDates.length > 10) {
       startDates.pop();
     }
   } else {
-      // якщо їх там нема - присвоюємо змінній значення порожнього масиву
       startDates = []
   }
 
-// додаємо до списку нове завдання
   startDates.unshift(date);
 
-  // зберігаємо список завданнь в Local Storage
   localStorage.setItem('start Dates', JSON.stringify(startDates));
 
 }
@@ -63,10 +58,8 @@ function storeResultstoLocalStorage(value, nameValue) {
         results = []
     }
 
-    // додаємо до списку нове завдання
     results.unshift(result);
 
-    // зберігаємо список завданнь в Local Storage
     localStorage.setItem('results', JSON.stringify(results));
 }
 // Функція повертає дату (тиждень або місяць від початкової дати)
@@ -87,8 +80,9 @@ function getWeekends(start, end) {
     if (day === 0 || day === 6) {
         weekendDays++;
     }
-    // startDate.setDate(startDate.getDate() + 1);
+    startDate.setDate(startDate.getDate() + 1);
   }
+  console.log(weekendDays);
   return weekendDays;
 }
 
@@ -104,7 +98,7 @@ function getWeekdays(start, end) {
     if (day >= 1 && day <= 5) {
         weekdays++;
     }
-    // startDate.setDate(startDate.getDate() + 1)
+    startDate.setDate(startDate.getDate() + 1)
   }
   return weekdays;
 }
@@ -232,7 +226,7 @@ function getDifference(event) {
 
   // Фільтр дні-години-хвилини-секунди 
 
-  if (filterDurationSelect.value === 'days' && outputResult) {
+  if (filterDurationSelect.value === 'days' && outputResult >= 0) {
     if (outputResult > 1) {
       // localStorage.setItem('time interval', `${outputResult} days`);
       storeResultstoLocalStorage(outputResult, 'days');
@@ -242,7 +236,7 @@ function getDifference(event) {
       storeResultstoLocalStorage(outputResult, 'day');
       output.innerHTML = `Difference between the two dates is <span class="result-date">${outputResult}</span> day`;
     }
-  } else if((filterDurationSelect.value !== 'days' && outputResult)) {
+  } else if((filterDurationSelect.value !== 'days' && outputResult >= 0)) {
     ConvertAndOutputResult(date1, date2);
   }
 
