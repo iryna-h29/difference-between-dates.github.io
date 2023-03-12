@@ -11,7 +11,64 @@ let filterDurationSelect = document.querySelector("#filter-duration");
 const btnReset = document.querySelector('.calculator__btn-reset');
 
 
+function storeStartDatetoLocalStorage(date) {
+  let startDates;
 
+  // перевіряємо чи є у localStorage вже якісь завдання
+  if (localStorage.getItem('start Dates') !== null) {
+    // якщо вони там є - витягуємо їх і присвоюємо змінній
+    startDates = JSON.parse(localStorage.getItem('start Dates'));
+    if (startDates.length > 10) {
+      startDates.pop();
+    }
+  } else {
+      // якщо їх там нема - присвоюємо змінній значення порожнього масиву
+      startDates = []
+  }
+
+// додаємо до списку нове завдання
+  startDates.unshift(date);
+
+  // зберігаємо список завданнь в Local Storage
+  localStorage.setItem('start Dates', JSON.stringify(startDates));
+
+}
+function storeEndDatetoLocalStorage(date) {
+  let endDates;
+
+ 
+  if (localStorage.getItem('end Dates') !== null) {
+    endDates = JSON.parse(localStorage.getItem('end Dates'));
+    if (endDates.length > 10) {
+      endDates.pop();
+    }
+  } else {
+      endDates = []
+  }
+
+  endDates.unshift(date);
+
+  localStorage.setItem('end Dates', JSON.stringify(endDates));
+}
+function storeResultstoLocalStorage(value, nameValue) {
+  let results;
+  let result = `${value} ${nameValue}`;
+
+    if (localStorage.getItem('results') !== null) {
+        results = JSON.parse(localStorage.getItem('results'));
+        if (results.length > 10) {
+          results.pop();
+        }
+    } else {
+        results = []
+    }
+
+    // додаємо до списку нове завдання
+    results.unshift(result);
+
+    // зберігаємо список завданнь в Local Storage
+    localStorage.setItem('results', JSON.stringify(results));
+}
 // Функція повертає дату (тиждень або місяць від початкової дати)
 function addWeekorMonth(date, weeks, days) {
   date.setDate(date.getDate() + 7 * weeks + days - 1);
@@ -30,7 +87,7 @@ function getWeekends(start, end) {
     if (day === 0 || day === 6) {
         weekendDays++;
     }
-    startDate.setDate(startDate.getDate() + 1);
+    // startDate.setDate(startDate.getDate() + 1);
   }
   return weekendDays;
 }
@@ -47,7 +104,7 @@ function getWeekdays(start, end) {
     if (day >= 1 && day <= 5) {
         weekdays++;
     }
-    startDate.setDate(startDate.getDate() + 1)
+    // startDate.setDate(startDate.getDate() + 1)
   }
   return weekdays;
 }
@@ -58,30 +115,52 @@ function ConvertAndOutputResult(date1, date2) {
   if (filterDurationSelect.value === 'hours') {
     let hours = outputResult * 24;
     output.innerHTML = `Difference between the two dates is <span class="result-date">${hours}</span> hours`;
-    localStorage.setItem('time interval', `${hours} hours`);
+    // localStorage.setItem('time interval', `${hours} hours`);
+    storeResultstoLocalStorage(hours, 'hours')
   } else if (filterDurationSelect.value === 'minutes') {
     let minutes = outputResult * 24 * 60;
     output.innerHTML = `Difference between the two dates is <span class="result-date">${minutes}</span> minutes`;
-    localStorage.setItem('time interval', `${minutes} minutes`);
+    // localStorage.setItem('time interval', `${minutes} minutes`);
+    storeResultstoLocalStorage(minutes, 'minutes')
   } else if (filterDurationSelect.value === 'seconds') {
     let seconds = outputResult * 24 * 60 * 60;
     output.innerHTML = `Difference between the two dates is <span class="result-date">${seconds}</span> seconds`;
-    localStorage.setItem('time interval', `${seconds} seconds`);
+    // localStorage.setItem('time interval', `${seconds} seconds`);
+    storeResultstoLocalStorage(seconds, 'seconds')
   }
 }
 
 // Функція виведення даних з localStorage 
+
+function setResultsFromLocalStorage(item) {
+  let arrLocalStorage;
+
+  // перевіряємо чи є у localStorage вже якісь завдання
+  if (localStorage.getItem(item) !== null) {
+    // якщо вони там є - витягуємо їх і присвоюємо змінній
+    arrLocalStorage = JSON.parse(localStorage.getItem(item));
+  } else {
+    arrLocalStorage = []
+  }
+
+  // тут треба додати елемент 0 індекса передати
+  return arrLocalStorage[0];
+}
+
 
 function setResults() {
   let listResult = document.querySelector('.history__list-result');
   let listStartDate = document.querySelector(".history__list-start-date");
   let listEndDate = document.querySelector(".history__list-end-date");
   let liResult = document.createElement('li');
-  liResult.innerText = localStorage.getItem('time interval');
+  // liResult.innerText = localStorage.getItem('time interval');
+  liResult.innerText = setResultsFromLocalStorage('results');
   let liStartDate = document.createElement('li');
-  liStartDate.innerText = localStorage.getItem('startDate');
+  // liStartDate.innerText = localStorage.getItem('startDate');
+  liStartDate.innerText = setResultsFromLocalStorage('start Dates');
   let liEndDate = document.createElement('li');
-  liEndDate.innerText = localStorage.getItem('endDate');
+  // liEndDate.innerText = localStorage.getItem('endDate');
+  liEndDate.innerText = setResultsFromLocalStorage('end Dates');
   listResult.prepend(liResult);
   listStartDate.prepend(liStartDate);
   listEndDate.prepend(liEndDate);
@@ -146,17 +225,21 @@ function getDifference(event) {
     return output.innerHTML = "Please select a valid date";
   }
 
-  localStorage.setItem('startDate', formatDate(date1));
-  localStorage.setItem('endDate', formatDate(date2));
+  // localStorage.setItem('startDate', formatDate(date1));
+  storeStartDatetoLocalStorage(formatDate(date1));
+  // localStorage.setItem('endDate', formatDate(date2));
+  storeEndDatetoLocalStorage(formatDate(date2));
 
   // Фільтр дні-години-хвилини-секунди 
 
   if (filterDurationSelect.value === 'days' && outputResult) {
     if (outputResult > 1) {
-      localStorage.setItem('time interval', `${outputResult} days`);
+      // localStorage.setItem('time interval', `${outputResult} days`);
+      storeResultstoLocalStorage(outputResult, 'days');
       output.innerHTML = `Difference between the two dates is <span class="result-date">${outputResult}</span> days`;
     } else {
-      localStorage.setItem('time interval', `${outputResult} day`);
+      // localStorage.setItem('time interval', `${outputResult} day`);
+      storeResultstoLocalStorage(outputResult, 'day');
       output.innerHTML = `Difference between the two dates is <span class="result-date">${outputResult}</span> day`;
     }
   } else if((filterDurationSelect.value !== 'days' && outputResult)) {
