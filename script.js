@@ -54,10 +54,8 @@ function showLastResults() {
     listResult.append(liResult);
   })
 
-
-
-
 }
+
 function storeStartDatetoLocalStorage(date) {
   let startDates;
 
@@ -75,6 +73,7 @@ function storeStartDatetoLocalStorage(date) {
   localStorage.setItem('start Dates', JSON.stringify(startDates));
 
 }
+
 function storeEndDatetoLocalStorage(date) {
   let endDates;
 
@@ -92,6 +91,7 @@ function storeEndDatetoLocalStorage(date) {
 
   localStorage.setItem('end Dates', JSON.stringify(endDates));
 }
+
 function storeResultstoLocalStorage(value, nameValue) {
   let results;
   let result = `${value} ${nameValue}`;
@@ -109,6 +109,7 @@ function storeResultstoLocalStorage(value, nameValue) {
 
     localStorage.setItem('results', JSON.stringify(results));
 }
+
 // Функція повертає дату (тиждень або місяць від початкової дати)
 function addWeekorMonth(date, weeks, days) {
   date.setDate(date.getDate() + 7 * weeks + days - 1);
@@ -255,7 +256,10 @@ function getDifference(event) {
     outputResult = getWeekends(date1, date2);
   } else if (filterTypeDay === "weekdays" && date1.getTime() && date2.getTime()) {
     outputResult = getWeekdays(date1, date2);
-  } else if (date1.getTime() && date2.getTime() && endDate === "month" || endDate === "week") {
+  } else if (date1.getTime() && date2.getTime() && endDate === "month") {
+    let timeDifference = Math.round(date2 - date1);  
+    outputResult = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
+  } else if (date1.getTime() && date2.getTime() && endDate === "week") {
     let timeDifference = Math.round(date2 - date1);  
     outputResult = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
   } else if(date1.getTime() && date2.getTime()) {
@@ -287,20 +291,27 @@ function getDifference(event) {
 }
 
 
-// ці функції тому що в мене проблеми з радіо-інпутами
+// ці функції тому що в мене були проблеми зі стилями радіо-інпутів
 
 function defineStatus() {
   let endDateRadioInp = document.querySelector('#end-date');
   if (endDateInput !== null) {
     endDateRadioInp.checked = true;
     labelEndDate.setAttribute("style", "background-color: white;");
-    // let inputs = [document.querySelectorAll('[name="duration"]')];
+    document.querySelector(`[for="week"]`).removeAttribute("style", "background-color: white;");
+    document.querySelector(`[for="month"]`).removeAttribute("style", "background-color: white;");
   }
 }
-function removeActiveStatusFromEndDate() {
+function removeActiveStatusFromEndDate(e) {
   labelEndDate.removeAttribute("style", "background-color: white;");
-  // let label = document.querySelector(`[for=${e.target.value}]`);
-  // label.setAttribute("style", "background-color: white;");
+  let label = document.querySelector(`[for=${e.target.value}]`);
+  label.setAttribute("style", "background-color: white;");
+  if (e.target.value === 'week') {
+    label.nextElementSibling.nextElementSibling.removeAttribute("style", "background-color: white;")
+  } 
+  if (e.target.value === 'month') {
+    label.previousElementSibling.previousElementSibling.removeAttribute("style", "background-color: white;")
+  }
 }
 
 function resetForm() {
