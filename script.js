@@ -61,7 +61,7 @@ function storeStartDatetoLocalStorage(date) {
 
   if (localStorage.getItem('start Dates') !== null) {
     startDates = JSON.parse(localStorage.getItem('start Dates'));
-    if (startDates.length > 10) {
+    if (startDates.length > 9) {
       startDates.pop();
     }
   } else {
@@ -80,7 +80,7 @@ function storeEndDatetoLocalStorage(date) {
  
   if (localStorage.getItem('end Dates') !== null) {
     endDates = JSON.parse(localStorage.getItem('end Dates'));
-    if (endDates.length > 10) {
+    if (endDates.length > 9) {
       endDates.pop();
     }
   } else {
@@ -98,7 +98,7 @@ function storeResultstoLocalStorage(value, nameValue) {
 
     if (localStorage.getItem('results') !== null) {
         results = JSON.parse(localStorage.getItem('results'));
-        if (results.length > 10) {
+        if (results.length > 9) {
           results.pop();
         }
     } else {
@@ -266,7 +266,7 @@ function getDifference(event) {
     let timeDifference = Math.round(date2 - date1); 
     outputResult = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1;
   } else {
-    return output.innerHTML = "Please select a valid date";
+    return output.innerHTML = `<span class="red">Please select a valid date</span>`;
   }
 
 
@@ -316,6 +316,10 @@ function removeActiveStatusFromEndDate(e) {
 
 function resetForm() {
   form.reset();
+  let labels = document.querySelector(".calculator__end-date-wrapper").querySelectorAll('label');
+  labels.forEach((label) => {
+    label.removeAttribute("style", "background-color: white;");
+  })
 }
 
 form.addEventListener("submit", getDifference);
